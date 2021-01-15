@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "data-systems-project-301710",
+  "private_key_id": "33a2a09c3ce4c8fbf3d0b5eeb1cbd49c21208f91",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCuh4OL1M2VciUA\njkX1o+m4vnQXdPtrocNVJG97UqCQbfps/wE1W5i71G2d0rNNY7UBjO63V0ByWQzB\nDwEi4KAeKKtNyxpca31bgHQwhYg7/q3vhGOS/Eco0RBAc2G7YfFDjdhUDLjP29k7\nO67QGbbvi5N6Dw4R3fOsRrOJRHGm2ambBluMb83lPJiDcEkrqwCjSiNZjjeNcjM7\nTO91IoGF0O8dmbWLILyatO6EgPXajMWSSLvWM2JYJZ1fWkF/T7fyKJuzJom98s1X\nOaOUNyK4iyrFGKWkqBDmlsnv+0pkdCAIzu7aVijsDSza57IznOUdhkBYqwIH658t\nr0OObShPAgMBAAECggEAOLQNgKZMfuP9cp9GyoaNPnkeRaq7rt35FRYH5FTVlucs\naDI3hcrzJf9f99lHaPreiZjszANcjGozMxw5XcgGLZZABb/ZmjJQIaTr2wHfX8Kg\nZ0OniE9PnUrDUXVLSPKKzMxufuw9NUcz3kNHShQ4s74w1YTDqPloHE5CMXRbyn2+\norrfUIyZG+O0WCb48s8RAz+GbTMiqzrWiKKzJrRJUPexChfg0tD/+8KvrfwK4oNY\npZXshL7kwv3QCBLVSZhPrTNw66rdDgCDPvNx+g7Dm31cAO71WcBgt61RAnqEqm20\n/U5ZTnrXtkzuc9+SboTF9ne4yrOLYzRwaZ1oCqgVvQKBgQDi9TQxrAga0stDmE8d\nt9FshrePm4DZbWUIdsInSXLmxkFfZcM6BT/5BG8Gc/ANl2Iy1a0xzoxVf64tW2Sd\n6Nb4RgQZ2yOmcUGTF8pHhcmBoYcnuwsQ40fkrlTFxUxalrM9iebSVfwC8uM7h8U7\ndkKNyrwfAgu7ohf2MGA4P9ol6wKBgQDE3NUH0PsImpl8Ww3S0MUD7Yg2D/hjm/wM\nlAnZhWDdkzzkHcIFNUozxUZmcUtl1gfXwXO2McOigmkzuK9g0Z+rgntAdJDGWYtJ\nMuebzvAVPb4Af7d7Ggx09VTUfe+1f679TpBofhMHp9IHASxnN4Qp006uSoRXpdVZ\nEmY4/+f6LQKBgQCGQIPaaif1LgIc/wi1zJluOBZ3NYY3l5VvN0jMEo+MYXQkKT8d\noCNiezPtvkEe2RC2f11PHB45KSjwHaLcIfKftFMStGVXPKGMkEMQodw7+T/IycTW\n/Yr2hAUTZA0xfPmUCnHmtAQ5/lFaUoriDKd71pQHR5+HI3BHKgCQ5Xx2dwKBgEw+\nUutSDseISMWW5kWtwYAB8O0vRj4d3YJpm175f0iRi9W1iL1HpFNkph1q546rVCJF\ntDDuGRzJcUEs2A+hYDumr2GJQ8DuUTmqU3VOskEnxnye+krdDdIGajJaDAq5Ruao\nFNnDak9eucMouy/GmpMwWZq7FYJ0oap7q8eLpSaJAoGBAKiAsV3IIHInosNSIee2\nzOzIgDLUmMQuoWKppZQbElgIipN3gyFZdCdzSeSR1cLRGRQkBbuT2WDYk2yI7KFo\nC5AKltWfR+1GzJ0JLWrrjjr92GQebbiE7E2LxOhhPP+z4qqshrucWGUGvU0Du5t4\ngCZ1ORNk4jL3HgUd5yyYz5f5\n-----END PRIVATE KEY-----\n",
+  "client_email": "mycroft@data-systems-project-301710.iam.gserviceaccount.com",
+  "client_id": "112764788668156910327",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mycroft%40data-systems-project-301710.iam.gserviceaccount.com"
+}
