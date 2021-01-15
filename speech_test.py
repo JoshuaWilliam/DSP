@@ -7,6 +7,7 @@ import os
 import html
 from settings import set_path
 
+
 def list_languages():
     client = texttospeech.TextToSpeechClient()
     voices = client.list_voices().voices
