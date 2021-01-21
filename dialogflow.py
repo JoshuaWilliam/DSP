@@ -2,6 +2,12 @@ import argparse
 import uuid
 from settings import set_path
 from stt import parse_voice_input
+import speech_test
+from google.cloud import texttospeech
+
+from pydub import AudioSegment
+from pydub.playback import play
+
 
 # [START dialogflow_detect_intent_text]
 def detect_intent_texts(project_id, session_id, texts, language_code, client_type):
@@ -31,6 +37,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code, client_typ
             response.query_result.intent_detection_confidence))
         print('Fulfillment text: {}\n'.format(
             response.query_result.fulfillment_text))
+        return response.query_result.fulfillment_text
 
 
 # [END dialogflow_detect_intent_text]
@@ -57,7 +64,6 @@ def transcribe_file(speech_file):
         language_code="en-US",
     )
 
-
     operation = client.long_running_recognize(config=config, audio=audio)
 
     print("Waiting for operation to complete...")
@@ -69,8 +75,6 @@ def transcribe_file(speech_file):
         # The first alternative is the most likely one for this portion.
         print(u"Transcript: {}".format(result.alternatives[0].transcript))
         print("Confidence: {}".format(result.alternatives[0].confidence))
-
-
 
 
 if __name__ == '__main__':
@@ -106,16 +110,17 @@ if __name__ == '__main__':
     extravert_session = str(uuid.uuid4())
     introvert_session = str(uuid.uuid4())
 
-
-    detect_intent_texts(
+    extra_text = detect_intent_texts(
         "data-systems-project-301710", extravert_session, [raw_lines], 'en-US', 'extravert')
+    speech_test.run_all(extra_text)
 
-    detect_intent_texts(
-        "dsp-introvert-itgy", introvert_session,  [raw_lines], 'en-US', 'introvert')
+    intro_text = detect_intent_texts(
+        "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
+    speech_test.run_all(intro_text)
+    # play(AudioSegment.from_wav(speech_test.text_to_wav("en-GB-Wavenet-C", intro_text)))
 
     # detect_intent_texts(
     #     "data-systems-project-301710", extravert_session, [raw_lines], 'en-US', 'extravert')
     #
     # detect_intent_texts(
     #     "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
-

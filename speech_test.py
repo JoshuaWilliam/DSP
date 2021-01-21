@@ -77,15 +77,15 @@ def text_to_ssml(inputfile):
     # A string of SSML text based on plaintext input
 
     # Parses lines of input file
-    with open(inputfile, "r") as f:
-        raw_lines = f.read()
+    # with open(inputfile, "r") as f:
+    #     raw_lines = f.read()
 
     # Replace special characters with HTML Ampersand Character Codes
     # These Codes prevent the API from confusing text with
     # SSML commands
     # For example, '<' --> '&lt;' and '&' --> '&amp;'
 
-    escaped_lines = html.escape(raw_lines)
+    escaped_lines = html.escape(inputfile)
 
     # Convert plaintext to SSML
     # Wait two seconds between each address
@@ -97,10 +97,10 @@ def text_to_ssml(inputfile):
     return ssml
 
 
-if __name__ == '__main__':
-    set_path()
-    list_voices('en')
-    input_text = text_to_ssml('input.txt')
+def run_all(input_text):
+    # set_path()
+    # list_voices('en')
+    input_text = text_to_ssml(input_text)
     print(input_text)
     # play(AudioSegment.from_wav(text_to_wav("en-US-Standard-B", input_text)))
     # play(AudioSegment.from_wav(text_to_wav("en-AU-Wavenet-A", input_text)))
