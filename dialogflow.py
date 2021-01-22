@@ -1,9 +1,11 @@
 import argparse
 import uuid
+import io
 from settings import set_path
 from stt import parse_voice_input
 import speech_test
 from google.cloud import texttospeech
+import sys
 
 from pydub import AudioSegment
 from pydub.playback import play
@@ -32,15 +34,10 @@ def detect_intent_texts(project_id, session_id, texts, language_code, client_typ
 
         print('=' * 20)
         print('Query text: {}'.format(response.query_result.query_text))
-        print('Detected intent: {} (confidence: {})\n'.format(
+        print('Detected intent: {} (confidence: {})'.format(
             response.query_result.intent.display_name,
             response.query_result.intent_detection_confidence))
-        print('Fulfillment text: {}\n'.format(
-            response.query_result.fulfillment_text))
-        return response.query_result.fulfillment_text
-
-
-# [END dialogflow_detect_intent_text]
+        return response.query_result.intent.display_name
 
 
 def transcribe_file(speech_file):
@@ -78,49 +75,39 @@ def transcribe_file(speech_file):
 
 
 if __name__ == '__main__':
-    with open('input.txt', "r") as f:
-        raw_lines = f.read()
-    print(raw_lines)
+    while True:
+        ### Use input from textfile
+        # with open('input.txt', "r") as f:
+        #     raw_lines = f.read()
+        # print(raw_lines)
 
-    raw_lines = parse_voice_input('extravert')
+        ### Use input from voice command
+        raw_lines = parse_voice_input('extravert')
+        if raw_lines == '':
+            continue
 
-    # parser = argparse.ArgumentParser(
-    #     description=__doc__,
-    #     formatter_class=argparse.RawDescriptionHelpFormatter)
-    # parser.add_argument(
-    #     '--project-id',
-    #     help='Project/agent id.  Required.',
-    #     required=True)
-    # parser.add_argument(
-    #     '--session-id',
-    #     help='Identifier of the DetectIntent session. '
-    #          'Defaults to a random UUID.',
-    #     default=str(uuid.uuid4()))
-    # parser.add_argument(
-    #     '--language-code',
-    #     help='Language code of the query. Defaults to "en-US".',
-    #     default='en-US')
-    # parser.add_argument(
-    #     'texts',
-    #     nargs='+',
-    #     type=str,
-    #     help='Text inputs.')
-    #
-    # args = parser.parse_args()
-    extravert_session = str(uuid.uuid4())
-    introvert_session = str(uuid.uuid4())
+        dialogflow_session = str(uuid.uuid4())
+        # introvert_session = str(uuid.uuid4())
 
-    extra_text = detect_intent_texts(
-        "data-systems-project-301710", extravert_session, [raw_lines], 'en-US', 'extravert')
-    speech_test.run_all(extra_text)
+        # For parsing input of user to sentence
+        input_text = detect_intent_texts(
+            "data-systems-project-301710", dialogflow_session, [raw_lines], 'en-US', 'extravert')
 
-    intro_text = detect_intent_texts(
-        "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
-    speech_test.run_all(intro_text)
-    # play(AudioSegment.from_wav(speech_test.text_to_wav("en-GB-Wavenet-C", intro_text)))
+        speech_test.construct_response(input_text, 'extrovert')
+        print(input_text)
 
-    # detect_intent_texts(
-    #     "data-systems-project-301710", extravert_session, [raw_lines], 'en-US', 'extravert')
-    #
-    # detect_intent_texts(
-    #     "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
+
+
+        # intro_text = detect_intent_texts(
+        #     "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
+        # speech_test.run_all(intro_text)
+
+        # play(AudioSegment.from_wav(speech_test.text_to_wav("en-GB-Wavenet-C", intro_text)))
+
+        # detect_intent_texts(
+        #     "data-systems-project-301710", extravert_session, [raw_lines], 'en-US', 'extravert')
+        #
+        # detect_intent_texts(
+        #     "dsp-introvert-itgy", introvert_session, [raw_lines], 'en-US', 'introvert')
+        if input_text == 'part':
+            sys.exit(0)

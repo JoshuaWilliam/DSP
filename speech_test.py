@@ -6,6 +6,7 @@ from pydub.playback import play
 import os
 import html
 from settings import set_path
+import sentences
 
 
 def list_languages():
@@ -47,7 +48,7 @@ def text_to_wav(voice_name, text):
     )
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.LINEAR16,
-        speaking_rate=1.20
+        speaking_rate=1
     )
 
     client = texttospeech.TextToSpeechClient()
@@ -62,7 +63,7 @@ def text_to_wav(voice_name, text):
     return filename
 
 
-def text_to_ssml(inputfile):
+def text_to_ssml(inputfile, personality_type):
     # Generates SSML text from plaintext.
     # Given an input filename, this function converts the contents of the text
     # file into a string of formatted SSML text. This function formats the SSML
@@ -84,25 +85,83 @@ def text_to_ssml(inputfile):
     # These Codes prevent the API from confusing text with
     # SSML commands
     # For example, '<' --> '&lt;' and '&' --> '&amp;'
+    # inputfile = inputfile.replace("&", "&amp;") # Must be done first!
 
     escaped_lines = html.escape(inputfile)
 
     # Convert plaintext to SSML
     # Wait two seconds between each address
-    ssml = "<speak>{}</speak>".format(
-        escaped_lines.replace("\n", '\n<break time="1s"/>')
-    )
+    if personality_type == 'extrovert':
+        ssml = '<speak><prosody pitch="1st" rate="110%">{}</prosody></speak>'.format(escaped_lines)
+        ssml.replace("\n", '\n<break time="0.75s"/>')
+        ssml.replace('“', '<break time = "0.5s"/>“')
+
+    if personality_type == 'introvert':
+        ssml = '<speak><prosody pitch="-2st" rate="medium">{}</prosody></speak>'.format(
+            escaped_lines)
+        ssml.replace("\n", '\n<break time="1s"/>')
+        ssml.replace('“', '<break time = "0.75s"/>“')
+
+
+    # ssml = "<speak>{}</speak>".format(
+    #     escaped_lines.replace("\n", '\n<break time="1s"/>')
+    # )
+    # if personality_type == 'extrovert':
+    #     ssml.replace('“', '<break time = "0.5s"/>“')
+    #
+    # if personality_type == 'introvert':
+    #     ssml.replace('“', '<break time = "0.75s"/>“')
 
     # Return the concatenated string of ssml script
     return ssml
 
 
-def run_all(input_text):
-    # set_path()
-    # list_voices('en')
-    input_text = text_to_ssml(input_text)
-    print(input_text)
-    # play(AudioSegment.from_wav(text_to_wav("en-US-Standard-B", input_text)))
-    # play(AudioSegment.from_wav(text_to_wav("en-AU-Wavenet-A", input_text)))
-    # play(AudioSegment.from_wav(text_to_wav("en-IN-Wavenet-B", input_text)))
-    play(AudioSegment.from_wav(text_to_wav("en-GB-Wavenet-C", input_text)))
+def construct_response(intent, personality_type):
+    response = sentences.intent_dict.get(personality_type).get(intent)
+    ssml = text_to_ssml(response, personality_type)
+    print(ssml)
+    play(AudioSegment.from_wav(text_to_wav("en-GB-Wavenet-B", ssml)))
+
+
+def run_all():
+    set_path('extravert')
+    list_voices('en')
+    # input_text = text_to_ssml(input_text)
+
+    input_text = [
+        '<speech><emphasis level="reduced">Good morning! I hope you had a good night. As Carrie Snow always says, “No day is so bad it can’t be fixed with a nap.”</emphasis></speech>',
+        '<speech><emphasis level="moderate">Good morning! I hope you had a good night. As Carrie Snow always says, “No day is so bad it can’t be fixed with a nap.”</emphasis></speech>',
+        '<speech><emphasis level="strong"><break time = "3s"/>Good morning! I hope you had a good night. As Carrie Snow always says, “No day is so bad it can’t be fixed with a nap.”</emphasis></speech>'
+    ]
+
+    rate = [
+        # '<speech><prosody rate="slow">Good morning, I hope you slept well.</prosody></speech>',
+        # '<speech><prosody rate="medium">Good morning,<break time = "1s"/> I hope you slept well.</prosody></speech>',
+        '<speech><prosody pitch="-2st" rate="medium">You have one event on your schedule today,<break time = "1s"/> your mother\'s birthday at 2 o\' clock.</prosody></speech>',
+        '<speech><prosody pitch="1st"  rate="120%">You have one event on your schedule today,<break time = "0.75s"/> your mother\'s birthday at 2 o\' clock.</prosody></speech>'
+        # '<speech><prosody rate="120%">Good morning! <break time = "0.75s"/>I hope you had a good night. <break time = "0.75s"/>As Carrie Snow always says, <break time = "0.5s"/>“No day is so bad it can’t be fixed with a nap.”</prosody></speech>'
+    ]
+
+    pitch = [
+        '<speech><prosody pitch="-2st">Good morning,<break time = "1s"/> I hope you slept well. </prosody></speech>',
+        '<speech><prosody pitch="1st" rate="120%">Good morning,<break time = "0.75s"/> I hope you slept well.</prosody></speech>'
+        # '<speech><prosody pitch="1st" rate="120%">Good morning! <break time = "0.75s"/>I hope you had a good night. <break time = "0.75s"/>As Carrie Snow always says, <break time = "0.5s"/>“No day is so bad it can’t be fixed with a nap.”</prosody></speech>'
+        # '<speech><prosody pitch="1st" rate="120%">Good morning! <break time = "0.75s"/>I hope you had a good night. <break time = "0.75s"/>As Carrie Snow always says, <break time = "0.5s"/>“No day is so bad it can’t be fixed with a nap.”</prosody></speech>'
+    ]
+
+    ### EXTROVERT
+    for x in rate:
+        # input_text = '<speak>Good morning, I hope you slept well.</speak>'
+        print(x)
+        play(AudioSegment.from_wav(text_to_wav("en-GB-Wavenet-B", x)))
+
+    ### INTROVERT
+
+    # # input_text = '<speak><prosody rate="high" pitch="-4st">Good morning, I hope you slept well.</prosody></speak>'
+    # input_text = '<speech><break time = "1s"/>Good morning! I hope you had a good night. As Carrie Snow always says, “No day is so bad it can’t be fixed with a nap.” </speech>'
+    # print(input_text)
+    # play(AudioSegment.from_wav(text_to_wav("en-GB-Wavenet-B", input_text)))
+
+
+if __name__ == '__main__':
+    run_all()
