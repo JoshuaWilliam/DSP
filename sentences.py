@@ -1,7 +1,7 @@
 """ All SSML Sentences per personality type are contained in a dictionary for each intent"""
 
 intent_dict = {
-    'extrovert': {
+    'extravert': {
         'greet': 'Good morning! I hope you had a good night.\n'
                  'As Carrie Snow always says, “No day is so bad it can’t be fixed with a nap.”',
         'control-lights-on': 'The lights are on, so let it shine!',

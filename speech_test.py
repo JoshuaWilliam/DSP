@@ -86,12 +86,12 @@ def text_to_ssml(inputfile, personality_type):
     # SSML commands
     # For example, '<' --> '&lt;' and '&' --> '&amp;'
     # inputfile = inputfile.replace("&", "&amp;") # Must be done first!
-
+    # ssml = ""
     escaped_lines = html.escape(inputfile)
 
     # Convert plaintext to SSML
     # Wait two seconds between each address
-    if personality_type == 'extrovert':
+    if personality_type == 'extravert':
         ssml = '<speak><prosody pitch="1st" rate="110%">{}</prosody></speak>'.format(escaped_lines)
         ssml.replace("\n", '\n<break time="0.75s"/>')
         ssml.replace('“', '<break time = "0.5s"/>“')
@@ -106,7 +106,7 @@ def text_to_ssml(inputfile, personality_type):
     # ssml = "<speak>{}</speak>".format(
     #     escaped_lines.replace("\n", '\n<break time="1s"/>')
     # )
-    # if personality_type == 'extrovert':
+    # if personality_type == 'extravert':
     #     ssml.replace('“', '<break time = "0.5s"/>“')
     #
     # if personality_type == 'introvert':
@@ -116,15 +116,20 @@ def text_to_ssml(inputfile, personality_type):
     return ssml
 
 
-def construct_response(intent, personality_type):
-    response = sentences.intent_dict.get(personality_type).get(intent)
+def construct_response(input_text, personality_type):
+    if input_text in sentences.intent_dict.get(personality_type):
+        response = sentences.intent_dict.get(personality_type).get(input_text)
+    else:
+        response = input_text
+    # response = sentences.intent_dict.get(personality_type).get(intent)
     ssml = text_to_ssml(response, personality_type)
     print(ssml)
     play(AudioSegment.from_wav(text_to_wav("en-GB-Wavenet-B", ssml)))
 
 
 def run_all():
-    set_path('extravert')
+    # set_path('extravert')
+    set_path()
     list_voices('en')
     # input_text = text_to_ssml(input_text)
 

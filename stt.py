@@ -14,7 +14,7 @@ from struct import pack
 import pyaudio
 import wave
 
-THRESHOLD = 500
+THRESHOLD = 1500
 CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
 RATE = 44100
@@ -161,7 +161,8 @@ def transcribe_file(speech_file):
 
 
 def parse_voice_input(personality_type):
-    set_path(personality_type)
+    # set_path(personality_type)
+    set_path()
     print("please speak a word into the microphone")
     record_to_file('demo.wav')
     print("done - result written to demo.wav")
